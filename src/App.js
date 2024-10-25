@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import listOfAirports from "./airports";
+import listOfCities from "./cities";
 import LeftButton from "./components/LeftButton";
 import RightButton from "./components/RightButton";
 
@@ -10,6 +11,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const [icaoCode, setIcaoCode] = useState(listOfAirports[0]);
+  const [city, setCity] = useState(listOfCities[0]);
 
   myHeaders.append("X-API-Key", "fef9e3c1552d4e598e5f81fe61");
   const requestOptions = {
@@ -48,6 +50,7 @@ const App = () => {
       const newIndex =
         prevIndex > 0 ? prevIndex - 1 : listOfAirports.length - 1;
       setIcaoCode(listOfAirports[newIndex]);
+      setCity(listOfCities[newIndex]);
       return newIndex;
     });
   };
@@ -56,6 +59,7 @@ const App = () => {
     setIndex((prevIndex) => {
       const newIndex = (prevIndex + 1) % listOfAirports.length;
       setIcaoCode(listOfAirports[newIndex]);
+      setCity(listOfCities[newIndex]);
       return newIndex;
     });
   };
@@ -65,7 +69,8 @@ const App = () => {
   return (
     <div className="app">
       <h1 className="app-title">METARIUM</h1>
-      <h1 className="icao-code">{icaoCode}</h1>
+      <h2 className="city">{city}</h2>
+      <p>{icaoCode}</p>
 
       <div className="value-table">
         <section className="one-value">
