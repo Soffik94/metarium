@@ -1,3 +1,3 @@
-const listOfAirports = ["LKPR", "LKLN", "LKTB", "LKKV", "LKMT", "LKPD"];
+const listOfAirports = ["LKPR", "LKLN", "LKTB", "LKKV"];
 
 export default listOfAirports;

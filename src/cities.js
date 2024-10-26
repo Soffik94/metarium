@@ -1,10 +1,3 @@
-const listOfCities = [
-  "Ruzyně",
-  "Líně",
-  "Brno",
-  "Karlovy Vary",
-  "Ostrava",
-  "Pardubice",
-];
+const listOfCities = ["Ruzyně", "Líně", "Brno", "Karlovy Vary"];
 
 export default listOfCities;
