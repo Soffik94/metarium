@@ -23,11 +23,12 @@ const App = () => {
   let url = `https://api.checkwx.com/metar/${icaoCode}/decoded`;
 
   useEffect(() => {
-    setLoading(true); // Nastaví loading na true při každé změně icaoCode
+    setLoading(true);
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => result.data)
       .then((data) => {
+        console.log(data);
         setData(data[0]);
         setLoading(false);
       })
@@ -35,10 +36,10 @@ const App = () => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [icaoCode]);
+  }, [icaoCode, url]);
 
   if (loading) {
-    return <h1>Načítám</h1>;
+    return <p>Loading...</p>;
   }
 
   if (!data) {
@@ -64,39 +65,69 @@ const App = () => {
     });
   };
 
-  const { barometer, dewpoint, humidity, visibility, temperature } = data;
+  const {
+    barometer,
+    dewpoint,
+    humidity,
+    visibility,
+    temperature,
+    wind,
+    clouds,
+    ceiling,
+  } = data;
 
   return (
-    <div className="app">
-      <h1 className="app-title">METARIUM</h1>
-      <h2 className="city">{city}</h2>
-      <p>{icaoCode}</p>
-
+    <div>
+      <header>
+        <h1>METARIUM</h1>
+      </header>
       <div className="value-table">
+        <section className="airport-name">
+          <p>{icaoCode}</p>
+          <p>{city}</p>
+        </section>
         <section className="one-value">
           <p>Tlak QNH</p>
-          <div>{barometer.hpa} hPa</div>
+          <p>{barometer.hpa} hPa</p>
         </section>
         <section className="one-value">
           <p>Teplota vzduchu/Rosný bod</p>
-          <div>
+          <p>
             {temperature.celsius}/{dewpoint.celsius} C°
-          </div>
+          </p>
         </section>
         <section className="one-value">
           <p>Vlhkost vzduchu</p>
-          <div>{humidity.percent} %</div>
+          <p>{humidity.percent} %</p>
         </section>
         <section className="one-value">
           <p>Dohlednost</p>
-          <div>{visibility.meters} m</div>
+          <p>{visibility.meters} m</p>
+        </section>
+        <section className="one-value">
+          <p>Rychlost větru</p>
+          <p>{wind.speed_kph} km/h</p>
+        </section>
+        <section className="one-value">
+          <p>Zakrytí oblohy oblačností</p>
+          <p>{clouds && clouds.length > 0 ? clouds[0].code : "N/A"}</p>
+        </section>
+        <section className="one-value">
+          <p>Výška oblačnosti nad zemí</p>
+          <p>{ceiling.meters} m</p>
         </section>
       </div>
-
       <div className="buttons">
-        <LeftButton left={leftButtonHandler} className="button" />
-        <RightButton right={rightButtonHandler} className="button" />
+        <div className="one-button">
+          <LeftButton left={leftButtonHandler}></LeftButton>
+        </div>
+        <div className="one-button">
+          <RightButton right={rightButtonHandler}></RightButton>
+        </div>
       </div>
+      <footer>
+        <p>&copy;Matěj Šoffr, 2024</p>
+      </footer>
     </div>
   );
 };
