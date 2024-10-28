@@ -73,7 +73,6 @@ const App = () => {
     temperature,
     wind,
     clouds,
-    ceiling,
   } = data;
 
   return (
@@ -114,7 +113,7 @@ const App = () => {
         </section>
         <section className="one-value">
           <p>Výška oblačnosti nad zemí</p>
-          <p>{ceiling.meters} m</p>
+          <p>{clouds[0].base_meters_agl} m</p>
         </section>
       </div>
       <div className="buttons">
